@@ -6,7 +6,6 @@ public class Main1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Product1 product1 = new Product1();
-        Purchase1 purchase1 = new Purchase1();
         Order1 order1 = new Order1();
 
         System.out.println("디저트 가게에 오신 것을 환영합니다!");
@@ -20,14 +19,14 @@ public class Main1 {
         System.out.println("5. Croffle    | 와플 + 크로와상");
 
         System.out.println("[ ORDER MENU ]");
-        System.out.println("5. Order      | 장바구니를 확인 후 주문합니다.");
-        System.out.println("6. Cancel     | 진행중인 주문을 취소합니다.");
+        System.out.println("6. Order      | 장바구니를 확인 후 주문합니다.");
+        System.out.println("7. Cancel     | 진행중인 주문을 취소합니다.");
 
         int choice = scanner.nextInt();
         scanner.nextLine();
 
         while (true) {
-            if (choice == 6) {
+            if (choice == 7) {
                 System.out.println("진행하던 주문을 취소하시겠습니까?");
                 System.out.println("1. 확인        2. 취소");
                 System.out.print("선택: ");
@@ -41,7 +40,7 @@ public class Main1 {
                 }
             }
 
-            if (choice == 5) {
+            if (choice == 6) {
                 order1.main(args);
                 break;
             } else {

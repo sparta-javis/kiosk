@@ -18,6 +18,21 @@ public class Product1 {
                 System.out.println("4. Matcha Bingsu       | W 9.0 | 진한 그린티 맛이 나는 빙수입니다.");
                 System.out.println("5. Coffee Bingsu       | W 8.0 | 진한 커피 맛이 나는 빙수입니다.");
                 break;
+            case 5:
+                System.out.println("디저트 가게에 오신 것을 환영합니다!");
+                System.out.println("Coffee Bingsu       | W 8.0 | 진한 커피 맛이 나는 빙수입니다.");
+                System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+                System.out.println("1. 확인        2. 취소");
+                System.out.print("선택: ");
+
+                int menuChoice = scanner.nextInt();
+                scanner.nextLine();
+
+                if (menuChoice == 1) {
+                    System.out.println("메뉴가 장바구니에 추가되었습니다.");
+                    Main1.main(new String[]{});
+                }
+                break;
         }
     }
 }

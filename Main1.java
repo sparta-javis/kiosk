@@ -12,8 +12,8 @@ public class Main1 {
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.");
 
         System.out.println("[ DESSERT MENU ]");
-        System.out.println("1. Bingsu     | 상큼하고 시원한 빙수");
-        System.out.println("2. Ice Cream  | 부드럽고 진한 아이스크림");
+        System.out.println("1. Bingsu     | 새뫀달콤한 과일청이 올려져 있는 빙수");
+        System.out.println("2. Ice Cream  | 쫀득쫀득한 우유 베이스 아이스크림");
         System.out.println("3. Waffle     | 폭신폭식한 와플");
         System.out.println("4. Croissants | 바삭바삭한 크로와상");
         System.out.println("5. Croffle    | 와플 + 크로와상");
@@ -43,6 +43,7 @@ public class Main1 {
             if (choice == 6) {
                 order1.main(args);
                 break;
+
             } else {
                 product1.processChoice(choice);
                 System.out.print("선택: ");

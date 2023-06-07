@@ -256,4 +256,24 @@ public class KioskApplication {
 
     }
 
+    private static void addNewItem(String menuName) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("상품 이름");
+        String itemName = scanner.nextLine();
+
+        System.out.println("상품 가격");
+        Double price = scanner.nextDouble();
+
+        System.out.println("상품 설명");
+        String description = scanner.nextLine();
+
+        System.out.println("상품 Id");
+        String Id = scanner.nextLine();
+
+        Item newItem = new Item(itemName,price,description,Id);
+
+        ShopContext.addMenuItemsInput(menuName, newItem);
+        displayAdministrationMenu();
+    }
 }

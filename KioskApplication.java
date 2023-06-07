@@ -274,6 +274,9 @@ public class KioskApplication {
         Item newItem = new Item(itemName,price,description,Id);
 
         ShopContext.addMenuItemsInput(menuName, newItem);
+        // 왜 오류나는지? (오류대로 ShopContext.addMenuItemsInput 를 static 으로 바꾸면 안된다.
+        // static -> 클래스를 통해 인스턴스를 생성할 필요 없이, 클래스의 속성 또는 메서드를 사용하고자
+        // 한다면 쓰는 키워드. 우리는 addMenuItemsInput을 클래스를 통해 인스턴스를 생성하고자 하기때문
         displayAdministrationMenu();
     }
 }

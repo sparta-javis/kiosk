@@ -103,6 +103,7 @@ class ShopContext {
     public void addMenuItemsInput(String menuName, Item newItem) {
         if (menuItems.containsKey(menuName)) {
             List<Item> items = menuItems.get(menuName);
+            // Item List 에 있는 리스트들을 menuItem 에 넣는다
             items.add(newItem);
             menuItems.put(menuName, items);
             System.out.println("신규 메뉴가 등록되었습니다.");

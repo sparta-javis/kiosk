@@ -7,7 +7,7 @@ public class Item extends Menu {
     String message;
 
 
-//승철 수정사항 - 대기번호(int) orderNumber , 요청사항 (String) 메세지
+//승철 수정사항 - 대기번호(int) orderNumber , 요청사항 (String) 메세지 ㅇㅇ
     Item(int orderNumber, String name, Double price, String description, String message String id) {
         super(name, description, id);
         this.orderNumber = orderNumber;

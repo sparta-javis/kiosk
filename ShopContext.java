@@ -9,7 +9,7 @@ class ShopContext {
     public List<String[]> waitOrders;
     //승철 수정
     public List<String[]> completeOrders;
-    //승철 수정 -> completeOrders 는 결국 waitOrders에서 완료처리한 데이터들을 담는 리스트
+    //승철 수정 -> completeOrders 는 결국 waitOrders에서 완료처리한 데이터들을 담는 리스트 ㅇㅇ
 
     public ShopContext() {
         menus = new HashMap<>();
@@ -21,7 +21,7 @@ class ShopContext {
         initializeMenuItems();
     }
 
-    private void initializeMenuItems() {
+    private void initializeMenuItems() {ㅇ
         List<Menu> mainMenus = new ArrayList<>();
         mainMenus.add(new Menu("Burgers", "앵거스 비프 통살을 다져만든 버거", "123"));
 //        mainMenus.add(new Menu("Forzen Custard", "매장에서 신선하게 만드는 아이스크림"));

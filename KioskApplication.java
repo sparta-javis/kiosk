@@ -279,7 +279,11 @@ public class KioskApplication {
 
         Item newItem = new Item(itemName,price,description,Id);
 
-        // ShopContext.addMenuItemsInput(menuName, newItem);
+         shopContext.addMenuItemsInput(menuName, newItem);
+         // shopContext 소문자로 써야 하는 이유
+        // ShopContext. 으로 하면 static 메서드로 사용하기 때문
+        // 클래스 , 메소드 , 생성자 , 정적메소드(static) 개념 파악 필요
+
         // hash map 은 같은 id 값이 있을 때 하나로 처리한다.
 
 

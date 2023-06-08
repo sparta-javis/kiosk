@@ -100,18 +100,30 @@ class ShopContext {
     // 새로운 상품정보(메뉴, 이름, 설명, 가격)을 입력하여 생성할 수 있다.
     // 기존에 없는 메뉴라면 신규로 생성해준다.
     // 새로 생성된 메뉴와 상품은 각각 유일한 메뉴ID, 상품ID 식별자를 가진다.
-//    public void addMenuItemsInput(String menuName, Item newItem) {
-//        if (menuItems.containsKey(menuName)) {
-//            List<Item> items = menuItems.get(menuName);
-//            // Item List 에 있는 리스트들을 menuItem 에 넣는다
-//            items.add(newItem); // 상품이름
-//            menuItems.put(menuName, items); // 가격 설명
-//            System.out.println("신규 메뉴가 등록되었습니다.");
-//        } else {
-//            System.out.println("잘못 입력하셨습니다. 다시 입력하세요.");
-//        }
-//
-//    }
+    public void addMenuItemsInput(String menuName, Item newItem) {
+
+        if (this.menuItems.containsKey(menuName)) {
+            this.menuItems.get(menuName).add(newItem); // 리스트 아이템이 꺼내질 것
+            // this(이 객체,) Shopcontext 에서 menuName에
+
+
+            // List<Item> items = menuItems.get(menuName);
+            // 처음에 빈리스트 생성되어 있어야함. ( New arrayList )
+            // Item List 에 있는 리스트들을 menuItem 에 넣는다
+            // items.add(newItem); // 상품이름
+            // this.menuItems.put(menuName, items);
+
+            // put 을 쓰는 이유? -> menuItems 의 형태가 map 이기 때문.
+            // => type 별로 다뤄야 할 메서드가 다른 것.
+            // type 특성 모를 때 ? -> map 요소 추가 등으로 검색해서 명령어나 메서드 알기.
+
+
+            System.out.println("신규 메뉴가 등록되었습니다.");
+        } else {
+            System.out.println("잘못 입력하셨습니다. 다시 입력하세요.");
+        }
+
+    }
 
     public static void deleteMenuItemsInput() {
 

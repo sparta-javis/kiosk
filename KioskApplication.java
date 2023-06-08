@@ -13,6 +13,8 @@ public class KioskApplication {
         displayMainMenu();
         displayOrderNow();
         handleMainMenuInput();
+
+
     }
 
     private static void displayMainMenu() {
@@ -253,6 +255,23 @@ public class KioskApplication {
     }
 
     public static void handleOrderInput() {
+//  추가해 놓은 대기주문목록 --> 완료주문목록 넣는 함수입니다 아래 슬랙에 적어놓은 시간 데이터 넣는 클래스 추가 필요
+//        List<String[]> completeOrders = new ArrayList<>();
+//
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("대기번호를 입력하세요: ");
+//        String inputOrderNumber = scanner.nextLine();
+//
+//        for (String[] order : waitOrders) {
+//            String orderNumber = order[0];
+//            if (orderNumber.equals(inputOrderNumber)) {
+//                // 대기번호와 함께 날짜와 시간(ISO 8601 형식)을 completeOrders 배열에 추가
+//                String[] completeOrder = new String[order.length + 1];
+//                System.arraycopy(order, 0, completeOrder, 0, order.length); // 이전 데이터 복사
+//                completeOrder[order.length] = getISO8601DateTime(); // 현재 시간 추가
+//                completeOrders.add(completeOrder);
+//            }
+//        }
 
     }
 

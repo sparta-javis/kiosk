@@ -21,7 +21,7 @@ class ShopContext {
         initializeMenuItems();
     }
 
-    private void initializeMenuItems() {ㅇ
+    private void initializeMenuItems() {
         List<Menu> mainMenus = new ArrayList<>();
         mainMenus.add(new Menu("Burgers", "앵거스 비프 통살을 다져만든 버거", "123"));
 //        mainMenus.add(new Menu("Forzen Custard", "매장에서 신선하게 만드는 아이스크림"));

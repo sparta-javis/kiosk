@@ -271,12 +271,21 @@ public class KioskApplication {
         System.out.println("상품 Id");
         String Id = scanner.nextLine();
 
+        // 중복 ID 체크
+        if (ShopContext.menuItems.containsKey(Id)) {
+            System.out.println("이미 해당 ID로 등록된 메뉴가 있습니다.");
+            return; // 중복 ID가 있으므로 추가 작업을 중단하고 메서드를 종료합니다.
+        }
+
         Item newItem = new Item(itemName,price,description,Id);
 
-        ShopContext.addMenuItemsInput(menuName, newItem);
+        // ShopContext.addMenuItemsInput(menuName, newItem);
+        // hash map 은 같은 id 값이 있을 때 하나로 처리한다.
+
+
         // 왜 오류나는지? (오류대로 ShopContext.addMenuItemsInput 를 static 으로 바꾸면 안된다.
         // static -> 클래스를 통해 인스턴스를 생성할 필요 없이, 클래스의 속성 또는 메서드를 사용하고자
-        // 한다면 쓰는 키워드. 우리는 addMenuItemsInput을 클래스를 통해 인스턴스를 생성하고자 하기때문
+        // 한다면 쓰는 키워드. 우리는 addMenuItemsInput을 클래스를 통해 인스턴스를 생성하고자 하기때명
         displayAdministrationMenu();
     }
 }

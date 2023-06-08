@@ -9,8 +9,6 @@ public class MenuContext {
     private Map<String, List<Menu>> menus;
     private Map<String, List<Item>> menuItems;
     private List<Item> cart;
-    private static List<Order> waitOrders;
-    private static List<Order> completeOrders;
     private double totalPrice;
     private int orderNumber;
     private String message;
@@ -22,8 +20,6 @@ public class MenuContext {
         menus = new HashMap<>();
         menuItems = new HashMap<>();
         cart = new ArrayList<>();
-        waitOrders = new ArrayList<>();
-        completeOrders = new ArrayList<>();
         totalPrice = 0.0;
         orderNumber = 0;
 
@@ -127,36 +123,13 @@ public class MenuContext {
         }
     }
 
-    public Order addToWaitOrders() {
 
-        List<Item> cartItems = new ArrayList<>(cart);
-        double totalPrice = getTotalPrice();
-        String message = getMessage();
-        Timestamp createdData = getISO8601DateTime();
-
-        Order order = new Order(orderNumber, cartItems, totalPrice, message, createdData);
-        waitOrders.add(order);
-        return order;
-    }
-
-    public void waitToComplete(Order order) {
-        waitOrders.remove(order);
-        completeOrders.add(order);
-        order.setCreatedData(getISO8601DateTime());
-    }
-
-    public List<Order> getCompleteOrders() {
-        return completeOrders;
-    }
-
-    public List<Order> getWaitOrders() {
-        return waitOrders;
-    }
 
     public void addToCart(Item menuItem) {
         cart.add(menuItem);
         totalPrice += menuItem.getPrice();
     }
+
 
     public void displayCart() {
         for (Item item : cart) {
@@ -181,6 +154,14 @@ public class MenuContext {
         return totalPrice;
     }
 
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public List<Item> getCart() {
+        return cart;
+    }
+
     private static Timestamp getISO8601DateTime() {
         LocalDateTime now = LocalDateTime.now();
         return Timestamp.valueOf(now);
@@ -200,4 +181,9 @@ public class MenuContext {
         orderNumber++;
         return orderNumber;
     }
+
+    public Timestamp getCreatedData() {
+        return createdData;
+    }
+
 }

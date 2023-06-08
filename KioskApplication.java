@@ -1,5 +1,6 @@
 package team.kiosk;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 // 명지
@@ -8,8 +9,9 @@ public class KioskApplication {
 
     private static MenuContext menuContext;
 
-    private static List<Order> completeOrders = new ArrayList<>();
-    private static List<Order> waitOrders = new ArrayList<>();
+    private static ArrayList<Order> waitOrders = new ArrayList<>();
+    private static ArrayList<Order> completeOrders = new ArrayList<>();
+
 
     public static void main(String[] args) {
 
@@ -172,8 +174,7 @@ public class KioskApplication {
             System.out.println("장바구니에 추가되었습니다.");
 
         } else if (input == 2) {
-            displayMainMenu();
-            displayOrderNow();
+
 
         } else {
             System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
@@ -213,14 +214,29 @@ public class KioskApplication {
         }
     }
 
-    private static void displayOrderComplete() {
+    private static String cartStringtostring(List<Item> cart) {
+        StringBuilder cartString = new StringBuilder();
+        for (Item item : cart) {
+            cartString.append("- ").append(item.getName()).append(" : ").append(item.getPrice()).append("\n");
+        }
+        return cartString.toString();
+    }
 
+    private static void displayOrderComplete() {
         int orderNumber = menuContext.generateOrderNumber();
+        List<Item> cart = menuContext.getCart();
+        String cartString = cartStringtostring(cart);
+        double totalPrice = menuContext.getTotalPrice();
+        String message = menuContext.getMessage();
+        Timestamp createdData = menuContext.getCreatedData();
+
 
         System.out.println("주문이 완료되었습니다!\n");
         System.out.println("대기번호는 [ " + orderNumber + " ] 번 입니다.");
 
-        menuContext.addToWaitOrders();
+        Order order = new Order(orderNumber, cartString, totalPrice, message, createdData);
+        waitOrders.add(order);
+
 
         System.out.println("(3초후 메뉴판으로 돌아갑니다.)");
         try {
@@ -244,11 +260,9 @@ public class KioskApplication {
         if (input == 1) {
             menuContext.resetCart();
             System.out.println("주문이 취소되었습니다.");
-            displayMainMenu();
-            displayOrderNow();
 
         } else if (input == 2) {
-            displayMainMenu();
+
         } else {
             System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
             handleCancelConfirmationInput();
@@ -256,6 +270,7 @@ public class KioskApplication {
     }
 
     private static void displayAdministrationMenu() {
+
         System.out.println("[관리자 메뉴]");
         System.out.println("1. 대기주문 목록\n2. 완료주문 목록\n3. 상품 생성\n4. 상품 삭제");
         Scanner scanner = new Scanner(System.in);
@@ -278,10 +293,10 @@ public class KioskApplication {
                 break;
             case 2:
                 System.out.println("[ 완료주문 목록 ]");
-                if(waitOrders.isEmpty()) {
+                if(completeOrders.isEmpty()) {
                     System.out.println("대기 중인 주문이 없습니다.");
                 } else {
-                    for (Order order : waitOrders) {
+                    for (Order order : completeOrders) {
                         System.out.println(order.toString());
                     }
                 }
@@ -323,9 +338,18 @@ public class KioskApplication {
 
             if (input == 1) {
                 System.out.println("주문이 완료되었습니다.");
-                menuContext.waitToComplete(order);
-                waitOrders.remove(order);
-                completeOrders.add(order);
+
+                completeOrders.addAll(waitOrders);
+                Order orderToRemove = null;
+                for (Order waitOrder : waitOrders) {
+                    if (waitOrder.getOrderNumber() == orderNumber) {
+                        orderToRemove = order;
+                        break;
+                    }
+                }
+                if (orderToRemove != null) {
+                    waitOrders.remove(orderToRemove);
+                }
             } else if (input == 2) {
                 System.out.println("주문을 대기 상태로 유지합니다.");
             } else {

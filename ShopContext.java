@@ -9,7 +9,7 @@ class ShopContext {
     public List<String[]> waitOrders;
     //승철 수정
     public List<String[]> completeOrders;
-    //승철 수정 -> completeOrders 는 결국 waitOrders에서 완료처리한 데이터들을 담는 리스트 ㅇㅇ
+    //승철 수정 -> completeOrders 는 결국 waitOrders에서 완료처리한 데이터들을 담는 리스트
 
     public ShopContext() {
         menus = new HashMap<>();

@@ -12,7 +12,7 @@ public class MenuContext {
     private double totalPrice;
     private int orderNumber;
     private String message;
-    private Timestamp createdData;
+    private String createdData;
 
 
     public MenuContext() {
@@ -22,6 +22,8 @@ public class MenuContext {
         cart = new ArrayList<>();
         totalPrice = 0.0;
         orderNumber = 0;
+        message = null;
+        createdData = null;
 
         initializeMenuItems();
     }
@@ -30,7 +32,7 @@ public class MenuContext {
 
     private void initializeMenuItems() {
         List<Menu> mainMenus = new ArrayList<>();
-        mainMenus.add(new Menu("Burgers", "앵거스 비프 통살을 다져만든 버거", "123"));
+        mainMenus.add(new Menu("Burgers", "앵거스 비프 통살을 다져만든 버거", "burgers"));
         mainMenus.add(new Menu("Frozen Custard", "매장에서 신선하게 만드는 아이스크림", "frozen custard"));
         mainMenus.add(new Menu("Drinks", "매장에서 직접 만드는 음료","drinks"));
         mainMenus.add(new Menu("Beer", "뉴욕 브루클린 브루어리에서 양조한 맥주","beer"));
@@ -128,6 +130,7 @@ public class MenuContext {
     public void addToCart(Item menuItem) {
         cart.add(menuItem);
         totalPrice += menuItem.getPrice();
+        totalPrice = Math.floor(totalPrice * 10) / 10.0;
     }
 
 
@@ -154,18 +157,11 @@ public class MenuContext {
         return totalPrice;
     }
 
-    public int getOrderNumber() {
-        return orderNumber;
-    }
-
     public List<Item> getCart() {
         return cart;
     }
 
-    private static Timestamp getISO8601DateTime() {
-        LocalDateTime now = LocalDateTime.now();
-        return Timestamp.valueOf(now);
-    }
+
 
 
     void messageInput() {
@@ -180,10 +176,6 @@ public class MenuContext {
     public int generateOrderNumber() {
         orderNumber++;
         return orderNumber;
-    }
-
-    public Timestamp getCreatedData() {
-        return createdData;
     }
 
 }

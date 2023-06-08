@@ -7,7 +7,7 @@ import java.util.*;
 
 public class KioskApplication {
 
-    private static MenuContext menuContext;
+    private static MenuContext menuContext = new MenuContext();
 
     private static ArrayList<Order> waitOrders = new ArrayList<>();
     private static ArrayList<Order> completeOrders = new ArrayList<>();
@@ -16,7 +16,6 @@ public class KioskApplication {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        menuContext = new MenuContext();
 
         while (true) {
             displayMainMenu();
@@ -76,13 +75,17 @@ public class KioskApplication {
     private static void displayOrderNow() {
         System.out.println("[ 주문 현황 ]");
 
+        // 완료 주문 최신 3개 출력
         if (completeOrders.isEmpty()) {
             System.out.println("완료된 주문이 없습니다.");
         } else {
-            int startIndex = Math.max(0, completeOrders.size() - 3); // Calculate the starting index
-            for (int i = startIndex; i < completeOrders.size(); i++) {
+            // Sort the completeOrders list based on createdData in descending order
+            completeOrders.sort(Comparator.comparing(Order::getCompletedData).reversed());
+
+            int endIndex = Math.min(3, completeOrders.size()); // Calculate the ending index (up to a maximum of 3 orders)
+            for (int i = 0; i < endIndex; i++) {
                 Order order = completeOrders.get(i);
-                System.out.println(order.toString());
+                System.out.println("[완료주문]\n주문번호: " + order.getOrderNumber());
             }
         }
 
@@ -90,7 +93,7 @@ public class KioskApplication {
             System.out.println("대기 중인 주문이 없습니다.");
         } else {
             for (Order order : waitOrders) {
-                System.out.println(order.toString());
+                System.out.println("[대기주문]\n주문번호: " + order.getOrderNumber());
             }
         }
     }
@@ -175,7 +178,6 @@ public class KioskApplication {
 
         } else if (input == 2) {
 
-
         } else {
             System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
             handleConfirmationInput(menuItem);
@@ -222,13 +224,22 @@ public class KioskApplication {
         return cartString.toString();
     }
 
+    private static String getISO8601DateTime() {
+        java.util.Date now = new java.util.Date();
+        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(now);
+    }
+
+
     private static void displayOrderComplete() {
+
+        // waitOrders에 데이터 저장
+
         int orderNumber = menuContext.generateOrderNumber();
         List<Item> cart = menuContext.getCart();
         String cartString = cartStringtostring(cart);
         double totalPrice = menuContext.getTotalPrice();
         String message = menuContext.getMessage();
-        Timestamp createdData = menuContext.getCreatedData();
+        Timestamp createdData = Timestamp.valueOf(getISO8601DateTime());
 
 
         System.out.println("주문이 완료되었습니다!\n");
@@ -236,7 +247,7 @@ public class KioskApplication {
 
         Order order = new Order(orderNumber, cartString, totalPrice, message, createdData);
         waitOrders.add(order);
-
+        menuContext.resetCart();
 
         System.out.println("(3초후 메뉴판으로 돌아갑니다.)");
         try {
@@ -279,7 +290,7 @@ public class KioskApplication {
             case 1:
                 System.out.println("[ 대기주문 목록 ]");
                 if(waitOrders.isEmpty()) {
-                    System.out.println("대기 중인 주문이 없습니다.");
+                    System.out.println("주문이 없습니다.");
                 } else {
                     for (Order order : waitOrders) {
                         System.out.println(order.toString());
@@ -320,36 +331,28 @@ public class KioskApplication {
 
     // 주문 대기 -> 완료 메서드
     public static void handleOrderInput(int orderNumber) {
-        // Find the order with the given order number
-        Order order = null;
+        Order orderToComplete = null;
         for (Order waitOrder : waitOrders) {
             if (waitOrder.getOrderNumber() == orderNumber) {
-                order = waitOrder;
+                orderToComplete = waitOrder;
                 break;
             }
         }
 
-        if (order != null) {
+        if (orderToComplete != null) {
             System.out.println("대기 주문을 완료로 변경하시겠습니까?");
-            System.out.println("1. 예");
-            System.out.println("2. 아니오");
+            System.out.println("1. 예\n2. 아니오");
             Scanner scanner = new Scanner(System.in);
             int input = scanner.nextInt();
 
             if (input == 1) {
                 System.out.println("주문이 완료되었습니다.");
 
-                completeOrders.addAll(waitOrders);
-                Order orderToRemove = null;
-                for (Order waitOrder : waitOrders) {
-                    if (waitOrder.getOrderNumber() == orderNumber) {
-                        orderToRemove = order;
-                        break;
-                    }
-                }
-                if (orderToRemove != null) {
-                    waitOrders.remove(orderToRemove);
-                }
+                Timestamp completedData = Timestamp.valueOf(getISO8601DateTime());
+                orderToComplete.markAsComplete(completedData);
+                completeOrders.add(orderToComplete);
+
+                waitOrders.remove(orderToComplete);
             } else if (input == 2) {
                 System.out.println("주문을 대기 상태로 유지합니다.");
             } else {
@@ -360,5 +363,6 @@ public class KioskApplication {
             System.out.println("주문번호에 해당하는 주문이 존재하지 않습니다.");
         }
     }
+
 
 }

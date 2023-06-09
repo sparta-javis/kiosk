@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MenuContext {
 
-    private List<Menu> mainMenus;
+
     private Map<String, List<Menu>> menus;
     private Map<String, List<Item>> menuItems;
     private List<Item> cart;
@@ -12,13 +12,14 @@ public class MenuContext {
     private int orderNumber;
     private String message;
     private String createdData;
+    private String id;
 
 
     public MenuContext() {
 
         menus = new HashMap<>();
         menuItems = new HashMap<>();
-        mainMenus = new ArrayList<>();
+
         cart = new ArrayList<>();
         totalPrice = 0.0;
         orderNumber = 0;
@@ -31,7 +32,7 @@ public class MenuContext {
 
 
     private void initializeMenuItems() {
-        mainMenus = new ArrayList<>();
+        List<Menu> mainMenus = new ArrayList<>();
         mainMenus.add(new Menu("Burgers", "앵거스 비프 통살을 다져만든 버거", "burgers"));
         mainMenus.add(new Menu("Frozen Custard", "매장에서 신선하게 만드는 아이스크림", "frozen custard"));
         mainMenus.add(new Menu("Drinks", "매장에서 직접 만드는 음료","drinks"));
@@ -82,10 +83,6 @@ public class MenuContext {
         return menuItems.get(key);
     }
 
-    public void addMenu(Menu menu) {
-        mainMenus.add(menu);
-    }
-
     public void addNewItem() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("상품 이름");
@@ -109,32 +106,8 @@ public class MenuContext {
         String id = scanner.nextLine();
         Item newItem = new Item(name, price, description, id);
 
-        System.out.println("추가할 메뉴를 선택하세요:");
-        for (Menu menu : mainMenus) {
-            System.out.println(menu.getName());
-        }
-        String selectedMenu = scanner.nextLine();
+        System.out.println("신규 상품이 메뉴에 추가되었습니다.");
 
-        Menu menuToAddItem = null;
-        for (Menu menu : mainMenus) {
-            if (menu.getName().equalsIgnoreCase(selectedMenu)) {
-                menuToAddItem = menu;
-                break;
-            }
-        }
-
-        // Add the newItem to the selected menu's items
-        if (menuToAddItem != null) {
-            String menuId = menuToAddItem.getId();
-            Map<String, List<Item>> menuItems = getMenuItems();
-            List<Item> items = menuItems.getOrDefault(menuId, new ArrayList<>());
-            items.add(newItem);
-            menuItems.put(menuId, items);
-            setMenuItems(menuItems);
-            System.out.println("신규 상품이 메뉴에 추가되었습니다.");
-        } else {
-            System.out.println("잘못된 메뉴 선택입니다.");
-        }
     }
 
 
@@ -143,13 +116,20 @@ public class MenuContext {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("메뉴 id를 입력하세요.");
-        String id = scanner.nextLine();
+        String menuId = scanner.nextLine();
 
-        List<Item> menuItem = menuItems.get(id);
+        System.out.println("상품 id를 입력하세요.");
+        String itemId = scanner.nextLine();
+
+        deleteMenuItem(menuId, itemId);
+    }
+
+    private void deleteMenuItem(String menuId, String itemId) {
+        List<Item> menuItem = menuItems.get(menuId);
         if (menuItem != null) {
             Item itemToRemove = null;
             for (Item item : menuItem) {
-                if (item.getId().equals(id)) {
+                if (item.getId().equals(itemId)) {
                     itemToRemove = item;
                     break;
                 }
@@ -157,7 +137,7 @@ public class MenuContext {
 
             if (itemToRemove != null) {
                 menuItem.remove(itemToRemove);
-                menuItems.put(id, menuItem); // menuItems 업데이트
+                menuItems.put(menuId, menuItem); // menuItems 업데이트
                 System.out.println("상품이 삭제되었습니다.");
             } else {
                 System.out.println("없는 상품입니다.");
@@ -166,6 +146,7 @@ public class MenuContext {
             System.out.println("해당 메뉴 아이디가 존재하지 않습니다.");
         }
     }
+
 
 
 

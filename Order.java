@@ -25,13 +25,17 @@ public class Order {
         this.completedData = completedData;
     }
 
-    @Override
     public String toString() {
-        return "주문 번호: " + orderNumber + "\n"
-                + "주문내역 " + cartString
+        String basicInfo = "주문 번호: " + orderNumber + "\n"
+                + "주문 내역: " + cartString
                 + "총 가격: W " + totalPrice + "\n"
                 + "메시지: " + message + "\n"
                 + "주문 생성일시: " + createdData;
+        if (completedData != null) {
+            return basicInfo + "\n주문 완료일시: " + completedData;
+        } else {
+            return basicInfo + "\n주문 완료일시: N/A";
+        }
     }
 
 

@@ -86,6 +86,7 @@ public class MenuContext {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("새로운 메뉴를 입력하세요.");
+        System.out.println("메뉴를 입력하세요.");
         System.out.print("이름: ");
         String name = scanner.nextLine();
         System.out.println("가격: ");

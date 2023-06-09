@@ -6,8 +6,10 @@ class ShopContext {
     private Map<String, List<Menu>> menus;
     private Map<String, List<Item>> menuItems;
     public List<Item> soldItems;
-    public List<Item> waitOrders;
-    public List<Item> completeOrders;
+    public List<String[]> waitOrders;
+    //승철 수정
+    public List<String[]> completeOrders;
+    //승철 수정 -> completeOrders 는 결국 waitOrders에서 완료처리한 데이터들을 담는 리스트
 
     public ShopContext() {
         menus = new HashMap<>();
@@ -60,8 +62,8 @@ class ShopContext {
         menuItems.put("Drinks", drinksMenu);
         menuItems.put("Beer", beerMenu);
 
-        List<Item> waitOrders = new ArrayList<>();
-        List<Item> completeOrders = new ArrayList<>();
+        List<String[]> waitOrders = new ArrayList<>();
+        List<String[]> completeOrders = new ArrayList<>();
     }
 
     public List<Menu> getMenus(String key) {
@@ -74,27 +76,33 @@ class ShopContext {
 
 
     public void displayWaitOrder() {
-        for (Item item : waitOrders ) {
+        for (String order : waitOrders ) {
             System.out.println(item.name + "   | " + item.price + " | " + item.description);
         }
     }
 
 
-    public List<Item> getWaitOrders() {
+    public List<String[]> getWaitOrders() {
         return waitOrders;
     }
 
+//승철 수저사항 입니다 완료 주문 목록 처리
+    public void displayCompleteOrder(List<String[]> completeOrders) {
+        System.out.println("[완료 주문 목록]");
 
-    public void displayCompleteOrder() {
-        List<> completeOrders = shopContext.getCompleterders();
-        for (Order order : completeOrders ) {
-            System.out.println(order.getItem().getName() + "   | " + item.price + " | " + item.description);
+        for (String[] order : completeOrders) {
+            System.out.println("대기번호: " + order[0] + " | 상품이름: " + order[1]+ " | 총가격: " + order[2]+
+                    " | 주문일자: " + order[3] + " | 요청사항: " + order[4] + " | 완료일자: " + order[5]);
         }
     }
+    //completeOrders에 담는 행위 자체는 - > 대기목록 주문처리에서 처리해야함
+    //즉, displayCompleteOrders() -> 는 담겨있는 데이터를 가져와서 프린트 (문제는 완료주문일시)
+    //수정사항 - 승철
+    public List<String[]> getCompleteOrders() {
 
-    public List<Item> getCompleteOrders() {
         return completeOrders;
     }
+
 
     // 상품 생성
     // 새로운 상품정보(메뉴, 이름, 설명, 가격)을 입력하여 생성할 수 있다.
@@ -130,3 +138,5 @@ class ShopContext {
     }
 
 }
+
+

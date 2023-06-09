@@ -1,6 +1,12 @@
 package team.kiosk;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+
 
 class ShopContext {
     private Map<String, List<Menu>> menus;
@@ -11,15 +17,14 @@ class ShopContext {
     public List<String[]> completeOrders;
     //승철 수정 -> completeOrders 는 결국 waitOrders에서 완료처리한 데이터들을 담는 리스트
 
-    public ShopContext() {
-        menus = new HashMap<>();
-        menuItems = new HashMap<>();
-        soldItems = new ArrayList<>();
-        waitOrders = new ArrayList<>();
-        completeOrders = new ArrayList<>();
 
-        initializeMenuItems();
+    public ShopContext() {
+        waitOrders = new ArrayList<>();
     }
+
+
+    public List<String> getWaitOrders() {
+        return waitOrders;
 
     private void initializeMenuItems() {
         List<Menu> mainMenus = new ArrayList<>();
@@ -66,14 +71,36 @@ class ShopContext {
         List<String[]> completeOrders = new ArrayList<>();
     }
 
-    public List<Menu> getMenus(String key) {
-        return menus.get(key);
+    public void addWaitOrder(int waitNumber, List<String> orderItems, double totalPrice, String request, LocalDateTime orderDateTime) {
+        String waitOrderString = "대기 번호: " + waitNumber + ""
+                + "주문 상품 목록: " + String.join(", ", orderItems) + ""
+                + "주문 총 가격: " + totalPrice + ""
+                + "요청 사항: " + request + ""
+                + "주문 일시: " + orderDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        waitOrders.add(waitOrderString);
     }
 
-    public List<Item> getMenuItems(String key) {
-        return menuItems.get(key);
+
+    public void completeWaitOrder(int index) {
+        if (index >= 0 && index < waitOrders.size()) {
+            waitOrders.remove(index);
+        }
     }
 
+    // 대기 주문을 완료로 변경하는 메서드
+    public void waitToComplete() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("대기주문을 완료로 바꾸시겠습니까?");
+        int input = scanner.nextInt();
+        if (input == 1) {
+            System.out.println("주문이 완료되었습니다.");
+        } else if (input == 2) {
+            System.out.println("대기 중 주문입니다.");
+        } else {
+            System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+        }
+    }
 
     public void displayWaitOrder() {
         for (String order : waitOrders ) {
@@ -136,7 +163,6 @@ class ShopContext {
     public static void deleteMenuItemsInput() {
 
     }
-
 }
 
 

@@ -13,6 +13,8 @@ public class KioskApplication {
         displayMainMenu();
         displayOrderNow();
         handleMainMenuInput();
+
+
     }
 
     private static void displayMainMenu() {
@@ -253,7 +255,60 @@ public class KioskApplication {
     }
 
     public static void handleOrderInput() {
+//  추가해 놓은 대기주문목록 --> 완료주문목록 넣는 함수입니다 아래 슬랙에 적어놓은 시간 데이터 넣는 클래스 추가 필요
+//        List<String[]> completeOrders = new ArrayList<>();
+//
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("대기번호를 입력하세요: ");
+//        String inputOrderNumber = scanner.nextLine();
+//
+//        for (String[] order : waitOrders) {
+//            String orderNumber = order[0];
+//            if (orderNumber.equals(inputOrderNumber)) {
+//                // 대기번호와 함께 날짜와 시간(ISO 8601 형식)을 completeOrders 배열에 추가
+//                String[] completeOrder = new String[order.length + 1];
+//                System.arraycopy(order, 0, completeOrder, 0, order.length); // 이전 데이터 복사
+//                completeOrder[order.length] = getISO8601DateTime(); // 현재 시간 추가
+//                completeOrders.add(completeOrder);
+//            }
+//        }
 
     }
 
+    private static void addNewItem(String menuName) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("상품 이름");
+        String itemName = scanner.nextLine();
+
+        System.out.println("상품 가격");
+        Double price = scanner.nextDouble();
+
+        System.out.println("상품 설명");
+        String description = scanner.nextLine();
+
+        System.out.println("상품 Id");
+        String Id = scanner.nextLine();
+
+        // 중복 ID 체크
+        if (ShopContext.menuItems.containsKey(Id)) {
+            System.out.println("이미 해당 ID로 등록된 메뉴가 있습니다.");
+            return; // 중복 ID가 있으므로 추가 작업을 중단하고 메서드를 종료합니다.
+        }
+
+        Item newItem = new Item(itemName,price,description,Id);
+
+         shopContext.addMenuItemsInput(menuName, newItem);
+         // shopContext 소문자로 써야 하는 이유
+        // ShopContext. 으로 하면 static 메서드로 사용하기 때문
+        // 클래스 , 메소드 , 생성자 , 정적메소드(static) 개념 파악 필요
+
+        // hash map 은 같은 id 값이 있을 때 하나로 처리한다.
+
+
+        // 왜 오류나는지? (오류대로 ShopContext.addMenuItemsInput 를 static 으로 바꾸면 안된다.
+        // static -> 클래스를 통해 인스턴스를 생성할 필요 없이, 클래스의 속성 또는 메서드를 사용하고자
+        // 한다면 쓰는 키워드. 우리는 addMenuItemsInput을 클래스를 통해 인스턴스를 생성하고자 하기때명
+        displayAdministrationMenu();
+    }
 }

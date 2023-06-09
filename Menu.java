@@ -18,5 +18,7 @@ class Menu {
     public String getDescription() {
         return description;
     }
+
+    public String getId() { return id; }
 }
 

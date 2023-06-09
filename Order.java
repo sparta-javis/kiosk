@@ -28,7 +28,7 @@ public class Order {
     @Override
     public String toString() {
         return "주문 번호: " + orderNumber + "\n"
-                + "주문내역 " + cartString + "\n"
+                + "주문내역 " + cartString
                 + "총 가격: W " + totalPrice + "\n"
                 + "메시지: " + message + "\n"
                 + "주문 생성일시: " + createdData;

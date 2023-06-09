@@ -83,18 +83,30 @@ public class KioskApplication {
             completeOrders.sort(Comparator.comparing(Order::getCompletedData).reversed());
 
             int endIndex = Math.min(3, completeOrders.size()); // Calculate the ending index (up to a maximum of 3 orders)
+            System.out.print("[완료주문]\n주문번호: ");
             for (int i = 0; i < endIndex; i++) {
                 Order order = completeOrders.get(i);
-                System.out.println("[완료주문]\n주문번호: " + order.getOrderNumber());
+                System.out.print(order.getOrderNumber());
+                if (i < endIndex - 1) {
+                    System.out.print(" | ");
+                }
             }
+            System.out.println();
         }
 
         if(waitOrders.isEmpty()) {
             System.out.println("대기 중인 주문이 없습니다.");
         } else {
-            for (Order order : waitOrders) {
-                System.out.println("[대기주문]\n주문번호: " + order.getOrderNumber());
+            System.out.print("[대기주문]\n주문번호: ");
+            for (int i = 0; i < waitOrders.size(); i++) {
+                Order order = waitOrders.get(i);
+                System.out.print(order.getOrderNumber());
+
+                if (i < waitOrders.size() - 1) {
+                    System.out.print(" | ");
+                }
             }
+            System.out.println();
         }
     }
 
@@ -102,11 +114,9 @@ public class KioskApplication {
     private static void displayBurgersMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
-
         System.out.println("[ Burgers MENU ]");
         List<Item> burgerItems = menuContext.getMenuItems("Burgers");
         printMenuItems(burgerItems);
-
         handleMenuItemInput(burgerItems);
     }
 
@@ -131,33 +141,25 @@ public class KioskApplication {
     private static void displayFrozenCustardMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
-
         System.out.println("[ Frozen Custard MENU ]");
         List<Item> frozenCustardItems = menuContext.getMenuItems("Frozen Custard");
         printMenuItems(frozenCustardItems);
-
         handleMenuItemInput(frozenCustardItems);
     }
-
     private static void displayDrinksMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
-
         System.out.println("[ Drinks MENU ]");
         List<Item> drinkItems = menuContext.getMenuItems("Drinks");
         printMenuItems(drinkItems);
-
         handleMenuItemInput(drinkItems);
     }
-
     private static void displayBeerMenu() {
         System.out.println("SHAKESHACK BURGER 에 오신걸 환영합니다.");
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.\n");
-
         System.out.println("[ Beer MENU ]");
         List<Item> beerItems = menuContext.getMenuItems("Beer");
         printMenuItems(beerItems);
-
         handleMenuItemInput(beerItems);
     }
 
@@ -292,8 +294,14 @@ public class KioskApplication {
                 if(waitOrders.isEmpty()) {
                     System.out.println("주문이 없습니다.");
                 } else {
-                    for (Order order : waitOrders) {
+                    for (int i = 0; i < waitOrders.size(); i++) {
+                        Order order = waitOrders.get(i);
                         System.out.println(order.toString());
+
+                        // 마지막 주문이 아닌 경우에는 개행 출력
+                        if (i < waitOrders.size() - 1) {
+                            System.out.println();
+                        }
                     }
                 }
 
@@ -307,14 +315,20 @@ public class KioskApplication {
                 if(completeOrders.isEmpty()) {
                     System.out.println("대기 중인 주문이 없습니다.");
                 } else {
-                    for (Order order : completeOrders) {
+                    for (int i = 0; i < completeOrders.size(); i++) {
+                        Order order = completeOrders.get(i);
                         System.out.println(order.toString());
+
+                        // 마지막 주문이 아닌 경우에는 개행 출력
+                        if (i < completeOrders.size() - 1) {
+                            System.out.println();
+                        }
                     }
                 }
 
                 break;
             case 3:
-                menuContext.addMenuItemsInput();
+                menuContext.addNewItem();
 
                 break;
             case 4:
@@ -363,6 +377,8 @@ public class KioskApplication {
             System.out.println("주문번호에 해당하는 주문이 존재하지 않습니다.");
         }
     }
+
+
 
 
 }
